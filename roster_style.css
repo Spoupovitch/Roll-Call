@@ -1,0 +1,17 @@
+body {
+	font-family: 'Sunflower';
+	font-size: 1.15em;
+	text-align: center;
+	background: #f9f9f9;
+}
+
+h2 {
+	margin: 2.8em 0 0.5em 0;
+	text-transform: uppercase;
+	letter-spacing: 10px;
+}
+
+.input_form {
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
