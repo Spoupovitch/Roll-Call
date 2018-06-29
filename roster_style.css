@@ -5,7 +5,17 @@ body {
 	background: #f6f6f6;
 }
 
-#container {
+button {
+	height: 30px;
+	width: 100px;
+	background-color: #3d86ff;
+	color: white;
+	text-transform: uppercase;
+	border: none;
+}
+
+#display_page_container {
+	display: inline-block;
 }
 
 h2 {
@@ -14,18 +24,34 @@ h2 {
 	letter-spacing: 10px;
 }
 
-.input_form {
+#home_page_container {
+}
+
+.input_form_section {
 	margin-top: 2em;
 	margin-bottom: 2em;
 }
 
-button {
-	height: 30px;
-	width: 100px;
-	background-color: #3d86ff;
-	color: white;
-	text-transform: uppercase;
-	border: none;
+.left-right_spacing {
+	height: 100%;
+	width: 25em;
+	float: left;
+	background-color: chartreuse;
+}
+
+#partition_table {
+	
+}
+
+#roster_container {
+	display: block;
+	width: 50em;
+	float: left;
+	border-left: .1em, dark-gray, solid;
+	border-right: .1em, dark-gray, solid;
+}
+
+#roster_partition_container {
 }
 
 .tooltip {
@@ -37,3 +63,4 @@ button {
 	color: black;
 	border-bottom: none;
 }
+
