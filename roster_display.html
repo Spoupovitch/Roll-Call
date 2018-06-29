@@ -1,0 +1,40 @@
+<?php
+	require 'roster_display.php';
+?>
+
+<html>
+<head>
+	<link href=\"https://fonts.googleapis.com/css?family=Sunflower:300,700\" rel=\"stylesheet\">
+	<link rel=\"stylesheet\" type=\"text/css\" href=\"roster_style.css\" />
+	<title>Roll Call - Your Partitioned Roster</title>
+</head>
+<body>
+	
+<?php
+	$rosterFileName = $_FILES["roster"]["name"];
+	$rosterFile = fopen($rosterFileName, 'r');
+	
+	$currentLine = fgets($rosterFile);
+	
+	
+	if (isset($rosterFileName)){
+			$rosterFile = "uploads/" . basename($_FILES["roster"]["name"]);
+		}
+		$currentLine = fgets($rosterFile);
+	
+		while (!feof($rosterFile)) {
+			//print current line
+			echo $currentLine;
+			echo "<br/>";
+			
+			//move to next line
+			$currentLine = fgets($rosterFile);
+			
+			echo file_get_contents($rosterFileName);
+		}
+	
+	fclose($roster_file)
+?>
+
+</body>
+</html>

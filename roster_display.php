@@ -69,6 +69,7 @@
 	<title>Roll Call - Your Partitioned Roster</title>
 </head>
 <body>
+
 	<div id="display_page_container">
 		
 		<!-- -->
