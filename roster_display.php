@@ -27,11 +27,18 @@
 				//generate unique name for file upload
 				$rosterNameDynam = uniqid('', true) . '.' . $rosterFileExt;
 				
+				//place file in uploads/
 				$fileDestination = 'uploads/' . $rosterNameDynam;
-				
 				move_uploaded_file($rosterFileTmpName, $fileDestination);
 				
-				//header("Location: roster_display.html?Hereisyoshit");
+				//sort names in roster
+				$sortedRoster = [];
+				while ($currName = fgets($openFile)) {
+					$sortedRoster[] = $currName;
+				}
+				sort($sortedRoster);
+				
+				fclose($openFile);
 			}
 			else {
 				echo "File size too large.";
@@ -50,13 +57,13 @@
 	function print_line($name) {
 		echo "<tr>";
 		
-		echo "<td>";
-		echo "<input type=\"checkbox\" name=\"$name\"/>";
-		echo "</td>";
-		
-		echo "<td>";
-		echo "$name <br/>";
-		echo "</td>";
+			echo "<td>";
+				echo "<input type=\"checkbox\" name=\"$name\" value=\"$name\"/>";
+			echo "</td>";
+			
+			echo "<td>";
+				echo "$name <br/>";
+			echo "</td>";
 		
 		echo "</tr>";
 	}
@@ -72,22 +79,22 @@
 
 	<div id="display_page_container">
 		
-		<!-- -->
-		<div class="left-right_spacing">
-		</div>
-		
 		<div id="roster_container">
 			<!--  -->
 			<div id="roster_partition_container">
+				
+				Partition: <?php echo $partitionStart; ?> to <?php echo $partitionEnd; ?>
+				
 				<form method="POST" action="">
 					<table id="partition_table">
 						<?php
+							
 							//display requested partition
-							while ($currName = fgets($openFile)) {
+							foreach ($sortedRoster as $currName) {
 								
 								//only display names in given bounds
 								if (strncmp(ucfirst($currName), $partitionStart, 1) >= 0
-								&& strncmp(ucfirst($currName), $partitionEnd, 1) <= 0 ) {
+								&& strncmp(ucfirst($currName), $partitionEnd, 1) <= 0) {
 									
 									print_line($currName);
 								}
@@ -97,14 +104,43 @@
 				</form>
 			</div>
 			
+			<br/>
+			<hr/>
+			<br/>
+			
 			<!--  -->
 			<div id="roster_bulk_container">
 				
+				Roster Bulk
+				
+				<form method="POST" action="">
+					<table id="bulk_table">
+						<?php
+
+							//display remainder of roster
+							foreach ($sortedRoster as $currName) {
+								
+								//only display names outside of given bounds
+								if (strncmp(ucfirst($currName), $partitionStart, 1) < 0
+								|| strncmp(ucfirst($currName), $partitionEnd, 1) > 0) {
+									
+									print_line($currName);
+								}
+								else if (strncmp(ucfirst($currName), $partitionStart, 1) === 0) {
+									if (strncmp('A', $partitionStart, 1) !== 0) {
+										echo '...<br/>';
+									}
+								}
+								else if (strncmp(ucfirst($currName), $partitionEnd, 1) === 0) {
+									if (strncmp('Z', $partitionEnd, 1) !== 0) {
+										echo '...<br/>';
+									}
+								}
+							}
+						?>
+					</table>
+				</form>
 			</div>
-		</div>
-		
-		<!-- -->
-		<div class="left-right_spacing">
 		</div>
 		
 	</div>
