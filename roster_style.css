@@ -7,16 +7,16 @@ body {
 	height: 100%;
 }
 
-#bulk_table, tr:nth-child(odd) {
-	background-color: rgba(224, 224, 224, .7);
+#bulk_table tr:nth-child(odd) {
+	background-color: rgba(218, 218, 218, .65);
 }
 
-#bulk_table, tr:nth-child(even) {
-	background-color: rgba(234, 234, 234, .7);
+#bulk_table tr:nth-child(even) {
+	background-color: rgba(230, 230, 230, .65);
 }
 
-#bulk_table, tr:hover {
-	background-color: rgba(214, 212, 212, .9);
+#bulk_table tr:hover {
+	background-color: rgba(214, 212, 212, .8);
 }
 
 button {
@@ -48,16 +48,16 @@ h2 {
 	margin-bottom: 2em;
 }
 
-#partition_table, tr:nth-child(odd) {
-	background-color: rgba(225, 179, 229, .7);
+#partition_table tr:nth-child(odd) {
+	background-color: rgba(225, 179, 229, .65);
 }
 
-#partition_table, tr:nth-child(even) {
-	background-color: rgba(246, 194, 252, .7);
+#partition_table tr:nth-child(even) {
+	background-color: rgba(246, 194, 252, .65);
 }
 
-#partition_table, tr:hover {
-	background-color: rgba(221, 144, 229, .9);
+#partition_table tr:hover {
+	background-color: rgba(227, 150, 235, .8);
 }
 
 #roster_bulk_container {
@@ -85,7 +85,7 @@ table {
 	width: 100%;
 }
 
-table, input[type=checkbox] {
+td, input[type=checkbox] {
 	zoom: 1.25;
 }
 

@@ -1,5 +1,5 @@
 <?php
-	$inputNameOrder = $_POST['name_order'];
+	$nameOrder = $_POST['name_order'];
 	
 	$partitionStart = $_POST['name_group_start'];
 	$partitionEnd = $_POST['name_group_end'];
@@ -14,6 +14,9 @@
 		$rosterFileType = $rosterFile['type'];
 		
 		$openFile = fopen($rosterFileName, 'r');
+		if (!is_resource($openFile)) {
+			die('Failed to open file.');
+		}
 		
 		//pull file extension
 		$fileExtPrep = explode('.', $rosterFileName);
@@ -25,35 +28,44 @@
 			if ($rosterFileSize < 500000) {
 				
 				//generate unique name for file upload
-				$rosterNameDynam = uniqid('', true) . '.' . $rosterFileExt;
+				$rosterNameDynam = 'Prttn-' . $partitionStart . $partitionEnd . '-' . uniqid('', true) . '.' . $rosterFileExt;
 				
 				//place file in uploads/
 				$fileDestination = 'uploads/' . $rosterNameDynam;
 				move_uploaded_file($rosterFileTmpName, $fileDestination);
 				
-				//sort names in roster
-				$sortedRoster = [];
-				while ($currName = fgets($openFile)) {
-					$sortedRoster[] = $currName;
+				if ($nameOrder === 'first') {
+					//break name apart using regex
+					//swap name places, insert comma
+					//enter last, first into roster
+					//sort names in roster
 				}
-				sort($sortedRoster);
+				else if ($nameOrder === 'last') {
+					//sort names in roster
+					$sortedRoster = [];
+					while ($currName = fgets($openFile)) {
+						$sortedRoster[] = $currName;
+					}
+					sort($sortedRoster);
+				}
 				
 				fclose($openFile);
 			}
 			else {
-				echo "File size too large.";
+				echo 'File size too large.';
 			}
 		}
 		else {
-			echo "Error occured uploading file: FILES array returned 1.";
+			echo 'Error occured uploading file: FILES array returned 1.';
 		}
 	}
 	else {
-		echo "File upload failed.";
+		echo 'File upload failed.';
 	}
 ?>
 
 <?php
+	//print names w checkbox for each
 	function print_line($name) {
 		echo "<tr>";
 		
@@ -83,7 +95,7 @@
 			<!--  -->
 			<div id="roster_partition_container">
 				
-				Partition: <?php echo $partitionStart; ?> to <?php echo $partitionEnd; ?>
+				Roster Partition: <?php echo $partitionStart; ?> to <?php echo $partitionEnd; ?>
 				
 				<form method="POST" action="">
 					<table id="partition_table">
