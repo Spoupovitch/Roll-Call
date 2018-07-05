@@ -14,8 +14,9 @@
 		$rosterFileType = $rosterFile['type'];
 		
 		$openFile = fopen($rosterFileName, 'r');
+		//ensure file is successfully opened
 		if (!is_resource($openFile)) {
-			die('Failed to open file.');
+			die('Failed to open selected file.');
 		}
 		
 		//pull file extension
@@ -30,24 +31,56 @@
 				//generate unique name for file upload
 				$rosterNameDynam = 'Prttn-' . $partitionStart . $partitionEnd . '-' . uniqid('', true) . '.' . $rosterFileExt;
 				
+				//create uploads folder if necessary
+				if (!file_exists('uploads/')) {
+					mkdir('uploads/', 0777, false);
+					if (!file_exists('uploads/')) {
+						die('Failed to create "uploads" directory');
+					}
+				}
+				
+				//clear uploads folder
+				$uploadFiles = glob('uploads/Prttn*');
+				if (count($uploadFiles) > 100) {
+					foreach ($uploadFiles as $file) {
+						unlink($file);
+					}
+				}
+				
 				//place file in uploads/
 				$fileDestination = 'uploads/' . $rosterNameDynam;
 				move_uploaded_file($rosterFileTmpName, $fileDestination);
 				
+				//array for listed names
+				$sortedRoster = [];
+				
+				//handle first, last order
 				if ($nameOrder === 'first') {
-					//break name apart using regex
-					//swap name places, insert comma
-					//enter last, first into roster
-					//sort names in roster
-				}
-				else if ($nameOrder === 'last') {
-					//sort names in roster
-					$sortedRoster = [];
 					while ($currName = fgets($openFile)) {
-						$sortedRoster[] = $currName;
+						//filter empty lines and whitespaces
+						if (!($currName === '$')
+						&& !($currName === '\s*')) {
+							
+							//break name apart using regex
+							preg_match('/(.*) (.*)/', $currName, $fullNames);
+							//swap name places, insert comma, enter into roster
+							$sortedRoster[] = $fullNames[2] . ', ' . $fullNames[1];
+						}
 					}
-					sort($sortedRoster);
 				}
+				//handle last, first order
+				else if ($nameOrder === 'last') {
+					while ($currName = fgets($openFile)) {
+						//filter empty lines and whitespaces
+						if (!($currName === '$')
+						&& !($currName === '\s*')) {
+						
+							$sortedRoster[] = $currName;
+						}
+					}
+				}
+				//sort names in roster
+				sort($sortedRoster);
 				
 				fclose($openFile);
 			}
@@ -66,7 +99,7 @@
 
 <?php
 	//print names w checkbox for each
-	function print_line($name) {
+	function print_name($name) {
 		echo "<tr>";
 		
 			echo "<td>";
@@ -74,9 +107,23 @@
 			echo "</td>";
 			
 			echo "<td>";
-				echo "$name <br/>";
+				echo "$name<br/>";
 			echo "</td>";
 		
+		echo "</tr>";
+	}
+	
+	//empty row for excluded name
+	function print_break() {
+		echo "<tr>";
+			
+			echo "<td>";
+			echo "</td>";
+			
+			echo "<td>";
+				echo "...<br/>";
+			echo "</td>";
+
 		echo "</tr>";
 	}
 ?>
@@ -101,6 +148,9 @@
 					<table id="partition_table">
 						<?php
 							
+							$upperNames = 0;
+							$lowerNames = 0;
+							
 							//display requested partition
 							foreach ($sortedRoster as $currName) {
 								
@@ -108,7 +158,10 @@
 								if (strncmp(ucfirst($currName), $partitionStart, 1) >= 0
 								&& strncmp(ucfirst($currName), $partitionEnd, 1) <= 0) {
 									
-									print_line($currName);
+									print_name($currName);
+								}
+								else if (strncmp(ucfirst($currName), $partitionEnd, 1) > 0) {
+									$lowerNames = 1;
 								}
 							}
 						?>
@@ -133,20 +186,22 @@
 							foreach ($sortedRoster as $currName) {
 								
 								//only display names outside of given bounds
-								if (strncmp(ucfirst($currName), $partitionStart, 1) < 0
-								|| strncmp(ucfirst($currName), $partitionEnd, 1) > 0) {
-									
-									print_line($currName);
+								if (strncmp(ucfirst($currName), $partitionStart, 1) < 0) {
+									$upperNames = 1;
+									print_name($currName);
 								}
-								else if (strncmp(ucfirst($currName), $partitionStart, 1) === 0) {
-									if (strncmp('A', $partitionStart, 1) !== 0) {
-										echo '...<br/>';
+								else if (strncmp(ucfirst($currName), $partitionEnd, 1) > 0) {
+									//print ellipse for preceding partitioned names
+									if ($lowerNames === 1) {
+										$lowerNames = 0;
+										print_break();
 									}
+									print_name($currName);
 								}
-								else if (strncmp(ucfirst($currName), $partitionEnd, 1) === 0) {
-									if (strncmp('Z', $partitionEnd, 1) !== 0) {
-										echo '...<br/>';
-									}
+								//print ellipse for subsequent partitioned names
+								else if ($upperNames === 1) {
+									$upperNames = 0;
+									print_break();
 								}
 							}
 						?>
