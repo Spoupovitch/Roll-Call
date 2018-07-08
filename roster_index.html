@@ -2,12 +2,16 @@
 <head>
 	<link href="https://fonts.googleapis.com/css?family=Sunflower:300,700" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="roster_style.css" />
+	<meta charset="utf-8" />
 	<title>Roll Call - Roster Segmentation Tool</title>
 </head>
 
 <body>
 	<div id="home_page_container">
-		<h2>Roll Call</h2>
+		<header>
+			<h2>Roll Call</h2>
+		</header>
+		
 		<br/>
 		<form method="POST" action="roster_display.php" target="_blank" enctype="multipart/form-data">
 		
@@ -84,7 +88,7 @@
 					<option value="W">W</option>
 					<option value="X">X</option>
 					<option value="Y">Y</option>
-					<option value="Z">Z</option>	
+					<option value="Z" selected>Z</option>	
 				</select>
 			</div>
 
@@ -96,7 +100,7 @@
 			</div>
 			
 			
-				<button type="submit" name="submit">Submit</button>
+				<button class="submit" type="submit" name="submit">Submit</button>
 			
 		</form>
 	</div>

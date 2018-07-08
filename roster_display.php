@@ -132,11 +132,29 @@
 <head>
 	<link href="https://fonts.googleapis.com/css?family=Sunflower:300,700" rel="stylesheet"/>
 	<link rel="stylesheet" type="text/css" href="roster_style.css"/>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta charset="utf-8" />
 	<title>Roll Call - Your Partitioned Roster</title>
 </head>
 <body>
 
 	<div id="display_page_container">
+	
+		<div id="options_container">
+			<button class="misc_button">
+				Home
+			</button>
+			<br/>
+			<button class="misc_button">
+				Hide Bulk
+			</button>
+			<br/>
+			<button class="misc_button">
+				Compile
+			</button>
+			
+		</div>
 		
 		<div id="roster_container">
 			<!--  -->
@@ -144,7 +162,7 @@
 				
 				Roster Partition: <?php echo $partitionStart; ?> to <?php echo $partitionEnd; ?>
 				
-				<form method="POST" action="">
+				<form method="POST" action="" name="checked_partition">
 					<table id="partition_table">
 						<?php
 							
@@ -178,7 +196,7 @@
 				
 				Roster Bulk
 				
-				<form method="POST" action="">
+				<form method="POST" action="" name="checked_bulk">
 					<table id="bulk_table">
 						<?php
 
@@ -208,9 +226,12 @@
 					</table>
 				</form>
 			</div>
-		</div>
-		
-	</div>
+			
+		</div><!-- end roster_container -->
+	</div><!-- end display_page_container -->
+	
+	<script src="roster_scritps.js"></script>
+	
 </body>
 </html>
 
