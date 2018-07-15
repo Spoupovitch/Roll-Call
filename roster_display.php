@@ -29,7 +29,7 @@
 			if ($rosterFileSize < 500000) {
 				
 				//generate unique name for file upload
-				$rosterNameDynam = 'Prttn-' . $partitionStart . $partitionEnd . '-' . uniqid('', true) . '.' . $rosterFileExt;
+				$rosterNameDynam = uniqid('Prttn-' . $partitionStart . $partitionEnd . '-', true) . '.' . $rosterFileExt;
 				
 				//create uploads folder if necessary
 				if (!file_exists('uploads/')) {
@@ -67,8 +67,12 @@
 						if (!($currName === '$')
 						&& !($currName === '\s*')) {
 							
+							//remove leading/trailing whitespace
+							$currName = trim($currName, "\n\0");
 							//break name apart using regex
 							preg_match('/(.*) (.*)/', $currName, $fullNames);
+							//remove leading/trailing whitespace, add new line
+							$fullNames[1] = trim($fullNames[1], "\0") . "\n";
 							//swap name places, insert comma, enter into roster
 							allocate_names($fullNames[2] . ', ' . $fullNames[1]);
 						}
@@ -131,41 +135,38 @@
 	
 	//print names w checkbox for each
 	function print_name($name) {
-		echo "<tr>";
+		echo "<div class='line_name'>";
 		
-			echo "<td>";
+			echo "<div>";
 				echo "<input type=\"checkbox\" name=\"$name\" value=\"$name\"/>";
-			echo "</td>";
+			echo "</div>";
 			
-			echo "<td>";
+			echo "<div>";
 				echo "$name<br/>";
-			echo "</td>";
+			echo "</div>";
 		
-		echo "</tr>";
+		echo "</div>";
 	}
 	
 	//empty row for excluded name
 	function print_break() {
-		echo "<tr>";
+		echo "<div class='line_break'>";
 			
-			echo "<td>";
-			echo "</td>";
-			
-			echo "<td>";
+			echo "<div>";
 				echo "...<br/>";
-			echo "</td>";
+			echo "</div>";
 
-		echo "</tr>";
+		echo "</div>";
 	}
 ?>
 
 <html>
 <head>
 	<link href="https://fonts.googleapis.com/css?family=Sunflower:300,700" rel="stylesheet"/>
-	<link rel="stylesheet" type="text/css" href="roster_style.css"/>
+	<link rel="stylesheet" type="text/css" href="assets/css/roster_style.css"/>
 	
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta charset="utf-8"/>
 	
 	<title>Roll Call - Your Partitioned Roster</title>
 </head>
@@ -175,17 +176,17 @@
 	
 		<!-- navbar -->
 		<div id="options_container">
-			<button class="misc_button">
-				<a href="roster_index.html">
-					Home
-				</a>
+			<button class="misc_button" onclick="location.href='roster_index.html'">
+				Home
 			</button>
 			<br/>
-			<button class="misc_button">
+			
+			<button class="misc_button" onclick="placeholder()">
 				Hide Bulk
 			</button>
 			<br/>
-			<button class="misc_button">
+			
+			<button class="misc_button" form="checked_partition" type="submit" onclick="compileRosters()">
 				Compile
 			</button>
 			
@@ -193,56 +194,55 @@
 		
 		<!-- display names in file -->
 		<div id="roster_container">
-		
-			<!-- display names within partition -->
-			<div id="roster_partition_container">
-				
-				Roster Partition: <?php echo $partitionStart; ?> to <?php echo $partitionEnd; ?>
-				
-				<form method="POST" action="" name="checked_partition">
-					<table id="partition_table">
-						<?php
-							foreach ($sortedPartition as $currName) {
-								print_name($currName);
-							}
-						?>
-					</table>
-				</form>
-			</div>
 			
-			<br/>
-			<hr/>
-			<br/>
+			<form method="POST" action="roster_compilation.php" name="checked_partition">
+				
+				<!-- display names within partition -->
+				<div id="roster_partition_container">
+					
+					Roster Partition: <?php echo $partitionStart; ?> to <?php echo $partitionEnd; ?>
+					<br/>
+					
+					<?php
+						foreach ($sortedPartition as $currName) {
+							print_name($currName);
+						}
+					?>
+				</div>
 			
-			<!-- display names outside of partition bounds -->
-			<div id="roster_bulk_container">
+				<br/>
+				<hr/>
+				<br/>
 				
-				Roster Bulk
+				<!-- display names outside of partition bounds -->
+				<div id="roster_bulk_container">
+					
+					Roster Bulk
+					<br/>
+					
+					<?php
+						foreach ($sortedBulkHi as $currName) {
+							print_name($currName);
+						}
+						if ($upperNames === 1) {
+							print_break();
+						}
+						if ($lowerNames === 1) {
+							print_break();
+						}
+						foreach ($sortedBulkLo as $currName) {
+							print_name($currName);
+						}
+					?>
+				</div>
 				
-				<form method="POST" action="" name="checked_bulk">
-					<table id="bulk_table">
-						<?php
-							foreach ($sortedBulkHi as $currName) {
-								print_name($currName);
-							}
-							if ($upperNames === 1) {
-								print_break();
-							}
-							if ($lowerNames === 1) {
-								print_break();
-							}
-							foreach ($sortedBulkLo as $currName) {
-								print_name($currName);
-							}
-						?>
-					</table>
-				</form>
-			</div>
+			</form>
 			
 		</div><!-- end roster_container -->
 	</div><!-- end display_page_container -->
 	
-	<script src="roster_scritps.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="assets/js/roster_scripts.js"></script>
 	
 </body>
 </html>

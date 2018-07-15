@@ -4,13 +4,17 @@ Hunt, Helen
 Holiday, Billie
 Buble, Michael
 Brannigan, Zap
+Douglass, Stephen
+Underwood, Carrie
 Finch, Atticus
 Flockheart, Callista
 Abernathy, Frank
 Montag, Guy
 Guevarra, Che
+Osteen, Joel
 Deckard, Rick
 Boykin, Bob
+Humpalot, Ivana
 Pippen, Scott
 Williams, Brian
 North, Oliver
@@ -18,6 +22,7 @@ Benson, George
 Hamilton, Ferdinand
 Johnson, Ed
 Rodriguez, Michelle
+Jefferson, Davis
 Spacek, Sissy
 Allen, Lily
 Head, Richard

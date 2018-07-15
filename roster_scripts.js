@@ -1,4 +1,4 @@
-submitRosters = function() {
-	document.forms["checked_partition"].submit();
-	document.forms["checked_bulk"].submit();
-}
+$('form.checked_partition' || 'form.checked_bulk').on('submit', function(){
+	console.log('Fuck');
+	return false;
+});

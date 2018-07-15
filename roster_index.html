@@ -1,8 +1,11 @@
 <html>
 <head>
-	<link href="https://fonts.googleapis.com/css?family=Sunflower:300,700" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="roster_style.css" />
-	<meta charset="utf-8" />
+	<link href="https://fonts.googleapis.com/css?family=Sunflower:300,700" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="assets/css/roster_style.css"/>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta charset="utf-8"/>
+	
 	<title>Roll Call - Roster Segmentation Tool</title>
 </head>
 
@@ -92,17 +95,27 @@
 				</select>
 			</div>
 
-			<!-- team name -->
+			<!-- team name and password -->
 			<div class="input_form_section">
 				Enter a <span class="tooltip" title="Name must be identical for all partitions to allow recombination of roster (case sensitive)">team name</span>:
 				<br/>
 				<input type="text" name="team_name" placeholder="Please enter a name" required/>
+				<br/>
+				
+				<br/>
+				Enter a team password:
+				<br/>
+				<!-- <input type="password" name="team_pass" placeholder="Please enter a password" required/>
+				<!-- <input type="checkbox" name="show_hide_pass" onclick="showHidePass()"/> -->
 			</div>
 			
-			
-				<button class="submit" type="submit" name="submit">Submit</button>
+			<button class="submit" type="submit" name="submit">Submit</button>
 			
 		</form>
 	</div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="assets/js/roster_scripts.js"></script>
+	
 </body>
 </html>

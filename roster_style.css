@@ -23,6 +23,18 @@ button.misc_button {
 	max-width: 10em;
 }
 
+button.misc_button:active {
+	
+}
+
+.misc_button button:hover {
+	background-color: #1D66DF;
+}
+
+button.misc_button > a:visited {
+	color: white;
+}
+
 button.submit {
 	height: 1.875em;
 	min-width: 6.250em;
