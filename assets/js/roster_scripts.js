@@ -1,33 +1,24 @@
-$(document).ready(function(){
-
-    $("input[name='team_pass']").focus();
-
-    $("input[name='show_hide_pass']").click(function(){
-        if ($("input[name='show_hide_pass']").is(":checked"))
-        {
-            $("team_pass").clone()
-            .attr("type", "text").insertAfter("input[name='team_pass']")
-            .prev().remove();
-        }
-        else
-        {
-            $("input[name='team_pass']").clone()
-            .attr("type","password").insertAfter("input[name='team_pass']")
-            .prev().remove();
-        }
-    });
-});
-
 function placeholder() {
 	alert('Coming Soon');
 }
 
-$('form.checked_partition').on('submit', compileRosters());
-$('form.checked_bulk').on('submit', compileRosters);
-
-function compileRosters() {
-	var xhr = new XMLHttpRequest();
+function compileRosters(rosterHi, $rosterMid, $rosterLo) {
+//function compileRosters() {
+	/*
+	var rosterHi = "<?php echo $sortedBulkHi; ?>";
+	var rosterMid = "<?php echo json_encode($sortedPartition); ?>";
+	var rosterLo = "<?php echo json_encode($sortedBulkLo); ?>";
+	*/
 	
+	alert(rosterHi);
+	alert(rosterMid);
+	alert(rosterLo);
 	
-	return false;
+	roster = rosterHi.concat(rosterMid.concat(rosterLo));
+	
+	document.cookie = "roster=" + roster + ";path=C/wamp64/www/projects/Roll-Call/roster_compilation.php";
+	
+	//document.getElementById("checked_roster").submit();
+	
+	//window.location.href = "../../roster_compilation.php";
 }

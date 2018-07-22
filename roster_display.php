@@ -1,8 +1,34 @@
 <?php
-	$nameOrder = $_POST['name_order'];
+	include 'assets/api/roster_db_api.php';
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
 	
+	
+	$nameOrder = $_POST['name_order'];
 	$partitionStart = $_POST['name_group_start'];
 	$partitionEnd = $_POST['name_group_end'];
+	
+	$tableName = $_POST['team_name'] . '_' . $_POST['team_pass'];
+	setcookie('tableName', $tableName);
+	
+	//connect to database
+	$conn = mysqli_connect($dbServer, $dbUsername, $dbPassword, $dbName);
+	if (!$conn) {
+		die('Failed to connect to server: ' . mysqli_connect_error());
+	}
+	
+	//ensure table does not already exist
+	if (check_table($tableName, $conn) === false) {
+		
+		create_table($tableName, $conn);
+		//establish role as group creator
+		$group_leader = true;
+	}
+	else {
+		//establish role as group member
+		$group_member = true;
+	}
+	
 	
 	if (isset($_POST['submit'])) {
 		$rosterFile = $_FILES['roster'];
@@ -11,7 +37,7 @@
 		$rosterFileTmpName = $rosterFile['tmp_name'];
 		$rosterFileSize = $rosterFile['size'];
 		$rosterFileError = $rosterFile['error'];
-		$rosterFileType = $rosterFile['type'];
+		//$rosterFileType = $rosterFile['type'];
 		
 		$openFile = fopen($rosterFileName, 'r');
 		//ensure file is successfully opened
@@ -63,6 +89,7 @@
 				//handle First, Last order
 				if ($nameOrder === 'first') {
 					while ($currName = fgets($openFile)) {
+						
 						//filter empty lines and whitespaces
 						if (!($currName === '$')
 						&& !($currName === '\s*')) {
@@ -138,7 +165,7 @@
 		echo "<div class='line_name'>";
 		
 			echo "<div>";
-				echo "<input type=\"checkbox\" name=\"$name\" value=\"$name\"/>";
+				echo "<input type=\"checkbox\" name=\"$name\" value=true/>";
 			echo "</div>";
 			
 			echo "<div>";
@@ -158,6 +185,7 @@
 
 		echo "</div>";
 	}
+	
 ?>
 
 <html>
@@ -186,7 +214,7 @@
 			</button>
 			<br/>
 			
-			<button class="misc_button" form="checked_partition" type="submit" onclick="compileRosters()">
+			<button class="misc_button" form="checked_roster" onclick="" >
 				Compile
 			</button>
 			
@@ -195,7 +223,7 @@
 		<!-- display names in file -->
 		<div id="roster_container">
 			
-			<form method="POST" action="roster_compilation.php" name="checked_partition">
+			<form id="checked_roster" method="POST" action="roster_compilation.php" name="checked_roster" target="_blank">
 				
 				<!-- display names within partition -->
 				<div id="roster_partition_container">
@@ -241,8 +269,7 @@
 		</div><!-- end roster_container -->
 	</div><!-- end display_page_container -->
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="assets/js/roster_scripts.js"></script>
-	
 </body>
 </html>
