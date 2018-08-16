@@ -1,24 +1,33 @@
+var mysql = require('mysql');
+var express = require('express');
+
+//create mysql connection
+var conn = mysql.createConnection({
+	host: 'localhost',
+	user: 'root',
+	password: '',
+	database: 'roster_db'
+});
+
+db.connect((err) => {
+	if (err) {
+		throw err;
+	}
+	console.log('Node MySQL connected successfully');
+});
+
+//drop table
+express.get('/drop', (table) => {
+	let sql = 'DROP TABLE ?';
+	let query = db.query(sql, table, (err, res) => {
+		if (err) {
+			throw err;
+		}
+		console.log(res);
+		res.send('Table dropped');
+	});
+});
+
 function placeholder() {
 	alert('Coming Soon');
-}
-
-function compileRosters(rosterHi, $rosterMid, $rosterLo) {
-//function compileRosters() {
-	/*
-	var rosterHi = "<?php echo $sortedBulkHi; ?>";
-	var rosterMid = "<?php echo json_encode($sortedPartition); ?>";
-	var rosterLo = "<?php echo json_encode($sortedBulkLo); ?>";
-	*/
-	
-	alert(rosterHi);
-	alert(rosterMid);
-	alert(rosterLo);
-	
-	roster = rosterHi.concat(rosterMid.concat(rosterLo));
-	
-	document.cookie = "roster=" + roster + ";path=C/wamp64/www/projects/Roll-Call/roster_compilation.php";
-	
-	//document.getElementById("checked_roster").submit();
-	
-	//window.location.href = "../../roster_compilation.php";
 }

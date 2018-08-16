@@ -1,9 +1,23 @@
 <?php
-	include 'assets/api/roster_db_api.php';
+	include_once 'assets/sql/roster_db_api.php';
+	include_once 'assets/php/utils.php';
 	
-	$names = json_decode($_COOKIE['roster']);
-	echo $names;
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+	
+	
+	$tableName = $_COOKIE['tableName'];
+	$roster = unserialize($_COOKIE['roster']);
+	$checked = array_keys($_POST);
+	
+	foreach ($checked as $currName) {
+		//break name apart using regex
+		$fullName = prepare_name($currName);
+		//record checked names in table
+		update_roster($tableName, $fullName);
+	}
 ?>
+
 <html>
 <head>
 	<link href="https://fonts.googleapis.com/css?family=Sunflower:300,700" rel="stylesheet"/>
@@ -15,6 +29,7 @@
 	<title>Roll Call - Compiling Rosters</title>
 </head>
 <body>
+
 	<div id="display_page_container">
 	
 		<!-- navbar -->
@@ -29,20 +44,18 @@
 			</button>
 			<br/>
 			
-			<button class="misc_button" form="checked_partition" type="submit" onclick="compileRosters()">
-				Compile
+			<button class="misc_button" onclick="placeholder()">
+				Delete
 			</button>
 		</div>
 		
-		<!--  -->
-		<div>
+		<!-- display checked and unchecked names -->
+		<div id="roster_container">
+		
 			<?php
-				print_r($_POST);
-			/*
-				foreach ($names as $currName) {
-					add_to_roster($_COOKIE['tableName'], $conn, true, $currName);
+				foreach ($roster as $currName) {
+					print_status($currName, $tableName);
 				}
-			*/
 			?>
 		</div>
 		

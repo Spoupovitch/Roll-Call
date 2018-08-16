@@ -1,5 +1,7 @@
 <?php
-	include 'assets/api/roster_db_api.php';
+	include_once 'assets/sql/roster_db_api.php';
+	include_once 'assets/php/utils.php';
+	
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 	
@@ -9,27 +11,27 @@
 	$partitionEnd = $_POST['name_group_end'];
 	
 	$tableName = $_POST['team_name'] . '_' . $_POST['team_pass'];
-	setcookie('tableName', $tableName);
+	setcookie('tableName', $tableName, time()+60*60*8);
 	
-	//connect to database
-	$conn = mysqli_connect($dbServer, $dbUsername, $dbPassword, $dbName);
-	if (!$conn) {
-		die('Failed to connect to server: ' . mysqli_connect_error());
-	}
 	
 	//ensure table does not already exist
-	if (check_table($tableName, $conn) === false) {
+	if (check_table($tableName) === false) {
 		
-		create_table($tableName, $conn);
-		//establish role as group creator
-		$group_leader = true;
+		create_table($tableName);
+		//establish role as team creator
+		$team_leader = true;
+	}
+	else if (check_table($tableName) === true) {
+		
+		//establish role as team member
+		$team_member = true;
 	}
 	else {
-		//establish role as group member
-		$group_member = true;
+		echo "err: no team status";
 	}
 	
 	
+	//build roster from input file
 	if (isset($_POST['submit'])) {
 		$rosterFile = $_FILES['roster'];
 		
@@ -95,13 +97,15 @@
 						&& !($currName === '\s*')) {
 							
 							//remove leading/trailing whitespace
-							$currName = trim($currName, "\n\0");
+							$currName = trim($currName);
 							//break name apart using regex
-							preg_match('/(.*) (.*)/', $currName, $fullNames);
-							//remove leading/trailing whitespace, add new line
-							$fullNames[1] = trim($fullNames[1], "\0") . "\n";
+							preg_match("/([a-zA-Z]*)(\W\s*,*\s*\W*_*)([a-zA-Z]*)(\W*)/", $currName, $regexArr);
 							//swap name places, insert comma, enter into roster
-							allocate_names($fullNames[2] . ', ' . $fullNames[1]);
+							allocate_name($regexArr[3] . ', ' . $regexArr[1]);
+							
+							if (isset($team_leader)) {
+								$tableInitArr[] = $regexArr[3] . $regexArr[1];
+							}
 						}
 					}
 				}
@@ -112,17 +116,31 @@
 						//filter empty lines and whitespaces
 						if (!($currName === '$')
 						&& !($currName === '\s*')) {
-						
-							allocate_names($currName);
+							
+							allocate_name($currName);
+							
+							if (isset($team_leader)) {
+								//break name apart using regex
+								preg_match("/([a-zA-Z]*)(\W\s*,*\s*\W*_*)([a-zA-Z]*)(\W*)/", $currName, $regexArr);
+								$tableInitArr[] = $regexArr[1] . $regexArr[3];
+							}
 						}
 					}
 				}
+				
+				fclose($openFile);
 				
 				sort($sortedBulkHi);
 				sort($sortedPartition);
 				sort($sortedBulkLo);
 				
-				fclose($openFile);
+				$roster = array_merge($sortedBulkHi, $sortedPartition, $sortedBulkLo);
+				setcookie('roster', serialize($roster), time()+60*60*8);
+				
+				if (isset($team_leader)) {
+					sort($tableInitArr);
+					build_table();
+				}
 			}
 			else {
 				echo 'File size too large.';
@@ -135,57 +153,6 @@
 	else {
 		echo 'File upload failed.';
 	}
-?>
-
-<?php
-	function allocate_names($currName) {
-		global $sortedBulkHi, $sortedPartition, $sortedBulkLo;
-		global $partitionStart, $upperNames, $partitionEnd, $lowerNames;
-		
-		//name prior to partition
-		if (strncmp(ucfirst($currName), $partitionStart, 1) < 0) {
-			$upperNames = 1;
-			$sortedBulkHi[] = $currName;
-		}
-		//name in partition bounds
-		else if (strncmp(ucfirst($currName), $partitionStart, 1) >= 0
-		&& strncmp(ucfirst($currName), $partitionEnd, 1) <= 0) {
-			
-			$sortedPartition[] = $currName;
-		}
-		//name subsequent to partition
-		else if (strncmp(ucfirst($currName), $partitionEnd, 1) > 0) {
-			$lowerNames = 1;
-			$sortedBulkLo[] = $currName;
-		}
-	}
-	
-	//print names w checkbox for each
-	function print_name($name) {
-		echo "<div class='line_name'>";
-		
-			echo "<div>";
-				echo "<input type=\"checkbox\" name=\"$name\" value=true/>";
-			echo "</div>";
-			
-			echo "<div>";
-				echo "$name<br/>";
-			echo "</div>";
-		
-		echo "</div>";
-	}
-	
-	//empty row for excluded name
-	function print_break() {
-		echo "<div class='line_break'>";
-			
-			echo "<div>";
-				echo "...<br/>";
-			echo "</div>";
-
-		echo "</div>";
-	}
-	
 ?>
 
 <html>
@@ -214,21 +181,28 @@
 			</button>
 			<br/>
 			
-			<button class="misc_button" form="checked_roster" onclick="" >
+			<button class="misc_button" form="checked_roster">
 				Compile
 			</button>
-			
 		</div>
 		
 		<!-- display names in file -->
 		<div id="roster_container">
+			
+			<p>
+				<?php
+					print_team();
+				?>
+			</p>
+			
+			<br/>
 			
 			<form id="checked_roster" method="POST" action="roster_compilation.php" name="checked_roster" target="_blank">
 				
 				<!-- display names within partition -->
 				<div id="roster_partition_container">
 					
-					Roster Partition: <?php echo $partitionStart; ?> to <?php echo $partitionEnd; ?>
+					Roster Partition: <? echo $partitionStart; ?> to <? echo $partitionEnd; ?>
 					<br/>
 					
 					<?php
