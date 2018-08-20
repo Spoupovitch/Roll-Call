@@ -44,9 +44,9 @@
 		global $conn;
 		
 		$query = "CREATE TABLE $tableName (
-			id INT(9) PRIMARY KEY NOT NULL AUTO_INCREMENT,
 			checked TINYINT(1) DEFAULT 0,
-			full_name VARCHAR(40) CHARACTER SET utf8
+			full_name VARCHAR(40) CHARACTER SET utf8,
+			PRIMARY KEY (full_name)
 			);";
 			
 		$result = mysqli_query($conn, $query);
@@ -81,7 +81,7 @@
 		
 		$result = mysqli_query($conn, $query);
 		if ($result === false) {
-			echo "insert didn't work, bitch";
+			
 		}
 	}
 	
@@ -95,7 +95,6 @@
 		
 		$result = mysqli_query($conn, $query);
 		if ($result === false) {
-			echo "update didn't work, bitch<br/>";
 			echo mysqli_error($conn);
 		}
 	}

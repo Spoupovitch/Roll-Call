@@ -1,6 +1,7 @@
 <?php
-	include_once 'assets/sql/roster_db_api.php';
+	include_once 'assets/sql/db_api.php';
 
+	//allocate names into appropriate array depending on given partition
 	function allocate_name($currName) {
 		global $sortedBulkHi, $sortedPartition, $sortedBulkLo;
 		global $partitionStart, $upperNames, $partitionEnd, $lowerNames;
@@ -36,7 +37,9 @@
 	//prepare name for database comparison
 	//occurs subsequent to entry into database
 	function prepare_name($unprepName) {
-		preg_match("/([a-zA-Z]*)(\W*\s*,\s*\W*_*)([a-zA-Z]*(\W*))/", $unprepName, $regexArr);
+		preg_match("/([a-zA-Z]*)(\W*\s*,_*\s*\W*)([a-zA-Z]*(\W*))/", $unprepName, $regexArr);
+		trim($regexArr[1]);
+		trim($regexArr[3]);
 		return $regexArr[1] . $regexArr[3];
 	}
 	
@@ -68,6 +71,7 @@
 	
 	//show checked and unchecked names according to current table
 	function print_status($unprepName, $tableName) {
+		
 		//prepare name for database query
 		$prepName = prepare_name($unprepName);
 		//catch value of checked column
@@ -75,24 +79,28 @@
 		
 		if ($checked === 1) {
 			echo "<div class='line_name'>";
+			
 				echo "<div>";
-					echo "<input type=\"checkbox\" checked=\"checked\" disabled=\"disabled\" />";
+					echo "<input type=\"checkbox\" name=\"$unprepName\" disabled=\"disabled\" checked=\"checked\" />";
 				echo "</div>";
 				
 				echo "<div>";
 					echo "$unprepName<br/>";
 				echo "</div>";
+				
 			echo "</div>";
 		}
 		else if ($checked === 0) {
 			echo "<div class='line_name'>";
+			
 				echo "<div>";
-					echo "<input type=\"checkbox\" name=\"$unprepName\" />";
+					echo "<input type=\"checkbox\" name=\"$unprepName\" disabled=\"disabled\" />";
 				echo "</div>";
 				
 				echo "<div>";
 					echo "$unprepName<br/>";
 				echo "</div>";
+				
 			echo "</div>";
 		}
 		else {
@@ -100,23 +108,17 @@
 		}
 	}
 	
+	//show team name and role
 	function print_team() {
-		global $team_leader;
-		global $team_member;
-		
-		if (isset($team_member)) {
-			echo "Team: " . $_POST['team_name'] .
-				"<br/>" .
-				"Role: Member";
-		}
-		else if (isset($team_leader)) {
-			echo "Team: " . $_POST['team_name'] .
+		if (isset($_SESSION['team_leader'])) {
+			echo "Team: " . $_SESSION['team_name'] .
 				"<br/>" .
 				"Role: Lead";
 		}
 		else {
-			echo "Error: No team status found" .
-				"<br/>";
+			echo "Team: " . $_SESSION['team_name'] .
+				"<br/>" .
+				"Role: Member";
 		}
 	}
 	

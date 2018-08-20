@@ -1,6 +1,8 @@
 <?php
-	include_once 'assets/sql/roster_db_api.php';
+	include_once 'assets/sql/db_api.php';
 	include_once 'assets/php/utils.php';
+	
+	session_start();
 	
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
@@ -9,6 +11,9 @@
 	$nameOrder = $_POST['name_order'];
 	$partitionStart = $_POST['name_group_start'];
 	$partitionEnd = $_POST['name_group_end'];
+	
+	$_SESSION['team_name'] = $_POST['team_name'];
+	//setcookie('teamName', $_POST['team_name'], time()+60*60*8);
 	
 	$tableName = $_POST['team_name'] . '_' . $_POST['team_pass'];
 	setcookie('tableName', $tableName, time()+60*60*8);
@@ -19,17 +24,8 @@
 		
 		create_table($tableName);
 		//establish role as team creator
-		$team_leader = true;
+		$_SESSION['team_leader'] = true;
 	}
-	else if (check_table($tableName) === true) {
-		
-		//establish role as team member
-		$team_member = true;
-	}
-	else {
-		echo "err: no team status";
-	}
-	
 	
 	//build roster from input file
 	if (isset($_POST['submit'])) {
@@ -98,12 +94,14 @@
 							
 							//remove leading/trailing whitespace
 							$currName = trim($currName);
-							//break name apart using regex
+							//break name apart using regex, prepare for table
 							preg_match("/([a-zA-Z]*)(\W\s*,*\s*\W*_*)([a-zA-Z]*)(\W*)/", $currName, $regexArr);
+							trim($regexArr[3]);
+							trim($regexArr[1]);
 							//swap name places, insert comma, enter into roster
 							allocate_name($regexArr[3] . ', ' . $regexArr[1]);
 							
-							if (isset($team_leader)) {
+							if (isset($_SESSION['team_leader'])) {
 								$tableInitArr[] = $regexArr[3] . $regexArr[1];
 							}
 						}
@@ -119,10 +117,9 @@
 							
 							allocate_name($currName);
 							
-							if (isset($team_leader)) {
-								//break name apart using regex
-								preg_match("/([a-zA-Z]*)(\W\s*,*\s*\W*_*)([a-zA-Z]*)(\W*)/", $currName, $regexArr);
-								$tableInitArr[] = $regexArr[1] . $regexArr[3];
+							if (isset($_SESSION['team_leader'])) {
+								//break name apart using regex, prepare for table
+								$tableInitArr[] = prepare_name($currName);
 							}
 						}
 					}
@@ -137,7 +134,7 @@
 				$roster = array_merge($sortedBulkHi, $sortedPartition, $sortedBulkLo);
 				setcookie('roster', serialize($roster), time()+60*60*8);
 				
-				if (isset($team_leader)) {
+				if (isset($_SESSION['team_leader'])) {
 					sort($tableInitArr);
 					build_table();
 				}
@@ -169,7 +166,7 @@
 
 	<div id="display_page_container">
 	
-		<!-- navbar -->
+		<!-- sidebar -->
 		<div id="options_container">
 			<button class="misc_button" onclick="location.href='roster_index.html'">
 				Home
@@ -202,7 +199,7 @@
 				<!-- display names within partition -->
 				<div id="roster_partition_container">
 					
-					Roster Partition: <? echo $partitionStart; ?> to <? echo $partitionEnd; ?>
+					Roster Partition: <?php echo $partitionStart; ?> to <?php echo $partitionEnd; ?>
 					<br/>
 					
 					<?php
@@ -243,7 +240,7 @@
 		</div><!-- end roster_container -->
 	</div><!-- end display_page_container -->
 	
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
 	<script src="assets/js/roster_scripts.js"></script>
 </body>
 </html>

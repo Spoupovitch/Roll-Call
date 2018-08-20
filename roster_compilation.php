@@ -1,14 +1,18 @@
 <?php
-	include_once 'assets/sql/roster_db_api.php';
+	include_once 'assets/sql/db_api.php';
 	include_once 'assets/php/utils.php';
+	
+	session_start();
 	
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 	
 	
+	//$teamName = $_COOKIE['teamName'];
 	$tableName = $_COOKIE['tableName'];
 	$roster = unserialize($_COOKIE['roster']);
 	$checked = array_keys($_POST);
+	
 	
 	foreach ($checked as $currName) {
 		//break name apart using regex
@@ -32,7 +36,7 @@
 
 	<div id="display_page_container">
 	
-		<!-- navbar -->
+		<!-- sidebar -->
 		<div id="options_container">
 			<button class="misc_button" onclick="location.href='roster_index.html'">
 				Home
@@ -44,14 +48,19 @@
 			</button>
 			<br/>
 			
-			<button class="misc_button" onclick="placeholder()">
-				Delete
+			<button class="misc_button" onclick="confirmCreateFile( '<?php echo $tableName ?>' )">
+				Download
 			</button>
 		</div>
 		
 		<!-- display checked and unchecked names -->
 		<div id="roster_container">
-		
+			<p>
+				<?php
+					print_team();
+				?>
+			</p>
+			
 			<?php
 				foreach ($roster as $currName) {
 					print_status($currName, $tableName);
@@ -61,6 +70,8 @@
 		
 	</div>
 	
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="assets/js/roster_scripts.js"></script>
 </body>
 </html>

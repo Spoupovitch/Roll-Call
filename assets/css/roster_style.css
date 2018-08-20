@@ -45,6 +45,7 @@ button.submit {
 #display_page_container {
 	display: flex;
 	flex-direction: row;
+	background-image: url("../images/roll_call_bg.jpeg");
 }
 
 
