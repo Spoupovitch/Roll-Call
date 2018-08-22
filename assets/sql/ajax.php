@@ -1,12 +1,11 @@
 <?php
 	require_once 'db_api.php';
-	
-	ini_set('display_errors');
-	error_reporting(E_ALL);
+	session_unset();
+	session_destroy();
+	session_abort();
 
 
 	if (isset($_POST['method'])) {
-		global $conn;
 		
 		if (isset($_POST['method']) 
 		&& isset($_POST['tableName'])) {
@@ -20,34 +19,15 @@
 		
 		switch ($method) {
 			
-			//received create file command
-			//create roster file, send as JSON
+			//create roster file
 			case 'write_roster':
-			
-				$query = "SELECT *
-					FROM $tableName";
-					
-				$result = mysqli_query($conn, $query);
-				if ($result === false) {
-					die("fuck");
-				}
-				else {
-					$data = json_encode(mysqli_fetch_all($result));
-					$fileName = 'Roster:' . date('M-j-Y') . '.txt';
-					$fsPointer = fopen($fileName, 'w');
-					$rosterFile = fwrite($fsPointer, $data);
-					
-					//echo $data;
-					echo $fileName;
-				}
+				write_roster($tableName);
+				/*
 				break;
 			
-			//received delete roster command
 			//drop table
 			case 'delete_table':
-				//$query = "";
-				
-				//$result = mysqli_query($conn, $tableName);
+				*/
 				delete_table($tableName);
 				break;
 			

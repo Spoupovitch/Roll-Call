@@ -8,10 +8,16 @@
 	ini_set('display_errors', 1);
 	
 	
-	//$teamName = $_COOKIE['teamName'];
 	$tableName = $_COOKIE['tableName'];
 	$roster = unserialize($_COOKIE['roster']);
 	$checked = array_keys($_POST);
+	
+	if (isset($_SESSION['team_leader'])) {
+		$lead = true;
+	}
+	else {
+		$lead = false;
+	}
 	
 	
 	foreach ($checked as $currName) {
@@ -48,7 +54,7 @@
 			</button>
 			<br/>
 			
-			<button class="misc_button" onclick="confirmCreateFile( '<?php echo $tableName ?>' )">
+			<button class="misc_button" onclick="confirmCreateFile( '<?php echo $tableName ?>', '<?php echo $lead ?>' )">
 				Download
 			</button>
 		</div>

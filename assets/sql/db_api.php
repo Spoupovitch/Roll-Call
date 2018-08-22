@@ -60,11 +60,11 @@
 	function delete_table($tableName) {
 		global $conn;
 		
-		$query = "DROP TABLE '" . $tableName . "'";
+		$query = "DROP TABLE $tableName ";
 		$result = mysqli_query($conn, $query);
 		
 		if ($result === false) {
-			die('drop unsuccessful' . mysqli_error($conn));
+			die('drop table FAILED: ' . mysqli_error($conn));
 			return false;
 		}
 		else if($result->num_rows === 1) {
@@ -99,4 +99,37 @@
 		}
 	}
 	
+	//write roster data to file
+	function write_roster($tableName) {
+		global $conn;
+		
+		$query = "SELECT *
+			FROM $tableName";
+			
+		$result = mysqli_query($conn, $query);
+		if ($result === false) {
+			die("Roster file write FAILED");
+		}
+		else {
+			$data = json_encode(mysqli_fetch_all($result), JSON_PRETTY_PRINT);
+			
+			//create rosters folder if necessary
+			if (!file_exists('../../rosters/')) {
+				mkdir('../../rosters/', 0777, false);
+				
+				if (!file_exists('../../rosters/')) {
+					//place file in root dir if folder creation fails
+					$fileName = '../../Roster_' . date('M-j-Y_h-i') . '.txt';
+					$rosterFile = file_put_contents($fileName, $data);
+					
+					die('Failed to create "rosters" directory');
+				}
+				else {
+					//place file in folder upon successful creation or prior existence
+					$fileName = '../../rosters/Roster_' . date('M-j-Y_h-i') . '.txt';
+					$rosterFile = file_put_contents($fileName, $data);
+				}
+			}
+		}
+	}
 ?>
