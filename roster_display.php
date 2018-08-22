@@ -13,7 +13,6 @@
 	$partitionEnd = $_POST['name_group_end'];
 	
 	$_SESSION['team_name'] = $_POST['team_name'];
-	//setcookie('teamName', $_POST['team_name'], time()+60*60*8);
 	
 	$tableName = $_POST['team_name'] . '_' . $_POST['team_pass'];
 	setcookie('tableName', $tableName, time()+60*60*8);

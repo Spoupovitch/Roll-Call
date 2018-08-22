@@ -22,12 +22,6 @@
 			//create roster file
 			case 'write_roster':
 				write_roster($tableName);
-				/*
-				break;
-			
-			//drop table
-			case 'delete_table':
-				*/
 				delete_table($tableName);
 				break;
 			

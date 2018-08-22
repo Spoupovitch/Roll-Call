@@ -38,18 +38,5 @@ function makeRosterFile(tableName) {
 		}
 	});
 }
-/*
-//call php delete_table function
-function deleteRoster(tableName) {
-	$.ajax({
-		url: 'assets/sql/ajax.php',
-		type: 'POST',
-		data: {method: 'delete_table', tableName: tableName},
-		success: function(res) {
-			console.log(res);
-		}
-	});
-}
-*/
 
 
