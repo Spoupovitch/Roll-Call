@@ -15,7 +15,7 @@
 	$_SESSION['team_name'] = $_POST['team_name'];
 	
 	$tableName = $_POST['team_name'] . '_' . $_POST['team_pass'];
-	setcookie('tableName', $tableName, time()+60*60*8);
+	setcookie('tableName', $tableName, time() + 60 * 60 * 8);
 	
 	
 	//ensure table does not already exist
@@ -57,6 +57,7 @@
 				//create uploads folder if necessary
 				if (!file_exists('uploads/')) {
 					mkdir('uploads/', 0777, false);
+					
 					if (!file_exists('uploads/')) {
 						die('Failed to create "uploads" directory');
 					}
@@ -172,8 +173,8 @@
 			</button>
 			<br/>
 			
-			<button class="misc_button" onclick="placeholder()">
-				Hide Bulk
+			<button class="misc_button" onclick="hideBulk()">
+				Toggle Bulk
 			</button>
 			<br/>
 			
@@ -193,7 +194,7 @@
 			
 			<br/>
 			
-			<form id="checked_roster" method="POST" action="roster_compilation.php" name="checked_roster" target="_blank">
+			<form id="checked_roster" method="POST" action="roster_compilation.php" name="checked_roster">
 				
 				<!-- display names within partition -->
 				<div id="roster_partition_container">

@@ -46,8 +46,21 @@ button.submit {
 	display: flex;
 	flex-direction: row;
 	background-image: url("../images/roll_call_bg.jpeg");
+	background-attachment: fixed;
+	background-position: center;
 }
 
+.checked_name:nth-child(odd) {
+	background-color: rgba(2, 175, 0, .5);
+}
+
+.checked_name:nth-child(even) {
+	background-color: rgba(16, 196, 0, .5);
+}
+
+.checked_name:hover {
+	background-color: rgba(13, 165, 0, .55);
+}
 
 div#roster_bulk_container > div:nth-child(odd) {
 	background-color: rgba(218, 218, 218, .65);
@@ -149,3 +162,10 @@ header > h2 {
 	border-bottom: none;
 }
 
+
+/*
+hide element
+*/
+.hidden {
+	display: none;
+}

@@ -1,10 +1,12 @@
-//Vanilla
+/*
+Vanilla JS
+*/
 
 //prompt user to confirm creation & download of file, then deletion of roster
 function confirmCreateFile(tableName, lead) {
 	
 	if (lead) {
-		var retVal = confirm("If you create a file from this roster, "
+		let retVal = confirm("If you create a file from this roster, "
 			+ "you will no longer be able to edit it.\nWould you like to proceed?");
 		
 		if (retVal == true) {
@@ -17,12 +19,22 @@ function confirmCreateFile(tableName, lead) {
 	}
 }
 
-function placeholder() {
-	alert("Coming soon");
+//toggle names outside of partition
+function hideBulk() {
+	let bulkContainer = document.getElementById("roster_bulk_container");
+	
+	bulkContainer.classList.toggle("hidden");
 }
 
 
-//jQuery
+/*
+jQuery
+*/
+
+//toggle checked names
+function hideChecked() {
+	$(".checked_name").toggleClass("hidden");
+}
 
 //get file contents from php function
 function makeRosterFile(tableName) {
@@ -38,5 +50,4 @@ function makeRosterFile(tableName) {
 		}
 	});
 }
-
 

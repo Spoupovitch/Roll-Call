@@ -49,8 +49,8 @@
 			</button>
 			<br/>
 			
-			<button class="misc_button" onclick="placeholder()">
-				Hide Bulk
+			<button class="misc_button" onclick="hideChecked()">
+				Toggle Checked
 			</button>
 			<br/>
 			

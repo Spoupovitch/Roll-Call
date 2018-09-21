@@ -78,7 +78,7 @@
 		$checked = check_name($prepName, $tableName);
 		
 		if ($checked === 1) {
-			echo "<div class='line_name'>";
+			echo "<div class='line_name checked_name'>";
 			
 				echo "<div>";
 					echo "<input type=\"checkbox\" name=\"$unprepName\" disabled=\"disabled\" checked=\"checked\" />";
