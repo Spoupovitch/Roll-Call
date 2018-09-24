@@ -164,16 +164,16 @@
 </head>
 <body>
 
-	<div id="display_page_container">
+	<div class="display_page_container">
 	
 		<!-- sidebar -->
-		<div id="options_container">
+		<div class="options_container">
 			<button class="misc_button" onclick="location.href='roster_index.html'">
 				Home
 			</button>
 			<br/>
 			
-			<button class="misc_button" onclick="hideBulk()">
+			<button class="misc_button" onclick="toggleBulk()">
 				Toggle Bulk
 			</button>
 			<br/>
@@ -183,8 +183,9 @@
 			</button>
 		</div>
 		
+		
 		<!-- display names in file -->
-		<div id="roster_container">
+		<div class="roster_container">
 			
 			<p>
 				<?php

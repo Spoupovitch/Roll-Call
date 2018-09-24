@@ -91,7 +91,7 @@
 			echo "</div>";
 		}
 		else if ($checked === 0) {
-			echo "<div class='line_name'>";
+			echo "<div class='line_name unchecked_name'>";
 			
 				echo "<div>";
 					echo "<input type=\"checkbox\" name=\"$unprepName\" disabled=\"disabled\" />";

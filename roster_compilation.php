@@ -40,17 +40,22 @@
 </head>
 <body>
 
-	<div id="display_page_container">
+	<div class="display_page_container">
 	
 		<!-- sidebar -->
-		<div id="options_container">
+		<div class="options_container">
 			<button class="misc_button" onclick="location.href='roster_index.html'">
 				Home
 			</button>
 			<br/>
 			
-			<button class="misc_button" onclick="hideChecked()">
+			<button class="misc_button" onclick="toggleChecked()">
 				Toggle Checked
+			</button>
+			<br/>
+			
+			<button class="misc_button" onclick="toggleUnchecked()">
+				Toggle Unchecked
 			</button>
 			<br/>
 			
@@ -59,19 +64,24 @@
 			</button>
 		</div>
 		
+		
 		<!-- display checked and unchecked names -->
-		<div id="roster_container">
+		<div class="roster_container">
+		
 			<p>
 				<?php
 					print_team();
 				?>
 			</p>
 			
-			<?php
-				foreach ($roster as $currName) {
-					print_status($currName, $tableName);
-				}
-			?>
+			<div id="compilation_container">
+				<?php
+					foreach ($roster as $currName) {
+						print_status($currName, $tableName);
+					}
+				?>
+			</div>
+			
 		</div>
 		
 	</div>

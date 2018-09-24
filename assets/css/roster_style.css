@@ -11,6 +11,13 @@ body {
 	background: #F6F6F6;
 }
 
+header > h2 {
+	margin: 2.8em 0 0.5em 0;
+	text-transform: uppercase;
+	letter-spacing: .625em;
+}
+
+
 button.misc_button {
 	background-color: #3D86FF;
 	color: white;
@@ -22,13 +29,11 @@ button.misc_button {
 	min-width: 8em;
 	max-width: 10em;
 }
-
 button.misc_button:active {
 	background-color: #2D76EF;
 	border: #2D76EF inset;
 	transform: translateY(.2em);
 }
-
 button.misc_button:hover {
 	background-color: #2D76EF;
 }
@@ -42,7 +47,17 @@ button.submit {
 	border: none;
 }
 
-#display_page_container {
+.checked_name:nth-child(odd) {
+	background-color: rgba(2, 175, 0, .5);
+}
+.checked_name:nth-child(even) {
+	background-color: rgba(16, 196, 0, .5);
+}
+.checked_name:hover {
+	background-color: rgba(13, 165, 0, .55);
+}
+
+.display_page_container {
 	display: flex;
 	flex-direction: row;
 	background-image: url("../images/roll_call_bg.jpeg");
@@ -50,54 +65,18 @@ button.submit {
 	background-position: center;
 }
 
-.checked_name:nth-child(odd) {
-	background-color: rgba(2, 175, 0, .5);
+
+#compilation_container {
+	border-left: .1em solid #B7B7B7;
+	border-right: .1em solid #B7B7B7;
+	text-align: center;
+	padding: .1em;
 }
 
-.checked_name:nth-child(even) {
-	background-color: rgba(16, 196, 0, .5);
-}
-
-.checked_name:hover {
-	background-color: rgba(13, 165, 0, .55);
-}
-
-div#roster_bulk_container > div:nth-child(odd) {
-	background-color: rgba(218, 218, 218, .65);
-}
-
-div#roster_bulk_container > div:nth-child(even) {
-	background-color: rgba(230, 230, 230, .65);
-}
-
-div#roster_bulk_container > div:hover {
-	background-color: rgba(214, 212, 212, .8);
-}
-
-div#roster_partition_container > div:nth-child(odd) {
-	background-color: rgba(225, 179, 229, .65);
-}
-
-div#roster_partition_container > div:nth-child(even) {
-	background-color: rgba(246, 194, 252, .65);
-}
-
-div#roster_partition_container > div:hover {
-	background-color: rgba(227, 150, 235, .8);
-}
 
 .error_msg {
 	color: red;
 	font-size: 1.5em;
-}
-
-header > h2 {
-	margin: 2.8em 0 0.5em 0;
-	text-transform: uppercase;
-	letter-spacing: .625em;
-}
-
-#home_page_container {
 }
 
 .input_form_section {
@@ -105,9 +84,6 @@ header > h2 {
 	margin-bottom: 2em;
 }
 
-.line_name > div > input[type=checkbox] {
-	zoom: 1.75;
-}
 
 .line_name {
 	display: grid;
@@ -115,8 +91,12 @@ header > h2 {
 	text-align: left;
 	padding: .15em .1em .15em .1em;
 }
+.line_name > div > input[type=checkbox] {
+	zoom: 1.75;
+}
 
-#options_container {
+
+.options_container {
 	flex: 1;
 	justify-content: flex-start;
 	position: sticky;
@@ -130,14 +110,24 @@ header > h2 {
 	padding: .5em .05em .75em .05em;
 }
 
+
 #roster_bulk_container {
 	border-left: .1em solid #B7B7B7;
 	border-right: .1em solid #B7B7B7;
 	text-align: center;
 	padding: .1em;
 }
+div#roster_bulk_container > div:nth-child(odd) {
+	background-color: rgba(218, 218, 218, .65);
+}
+div#roster_bulk_container > div:nth-child(even) {
+	background-color: rgba(230, 230, 230, .65);
+}
+div#roster_bulk_container > div:hover {
+	background-color: rgba(214, 212, 212, .8);
+}
 
-#roster_container {
+.roster_container {
 	flex: 3;
 	justify-content: space-around;
 	display: inline-block;
@@ -151,12 +141,21 @@ header > h2 {
 	text-align: center;
 	padding: .1em;
 }
+div#roster_partition_container > div:nth-child(odd) {
+	background-color: rgba(225, 179, 229, .65);
+}
+div#roster_partition_container > div:nth-child(even) {
+	background-color: rgba(246, 194, 252, .65);
+}
+div#roster_partition_container > div:hover {
+	background-color: rgba(227, 150, 235, .8);
+}
+
 
 .tooltip {
 	color: rgba(104, 23, 23, .85);
 	border-bottom: .05em dotted;
 }
-
 .tooltip:hover {
 	color: black;
 	border-bottom: none;

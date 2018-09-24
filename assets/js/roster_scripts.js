@@ -20,9 +20,8 @@ function confirmCreateFile(tableName, lead) {
 }
 
 //toggle names outside of partition
-function hideBulk() {
+function toggleBulk() {
 	let bulkContainer = document.getElementById("roster_bulk_container");
-	
 	bulkContainer.classList.toggle("hidden");
 }
 
@@ -32,8 +31,13 @@ jQuery
 */
 
 //toggle checked names
-function hideChecked() {
+function toggleChecked() {
 	$(".checked_name").toggleClass("hidden");
+}
+
+//toggle unchecked names
+function toggleUnchecked() {
+	$(".unchecked_name").toggleClass("hidden");
 }
 
 //get file contents from php function
