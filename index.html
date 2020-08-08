@@ -1,0 +1,118 @@
+<html>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Sunflower:300,700" rel="stylesheet"/>
+	<link rel="stylesheet" type="text/css" href="assets/css/roster_style.css"/>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta charset="utf-8"/>
+	
+	<title>Roll Call - Roster Segmentation Tool</title>
+</head>
+
+<body>
+	<div id="home_page_container">
+		<header>
+			<h2>Roll Call</h2>
+		</header>
+		
+		<br/>
+		<form method="POST" action="roster_display.php" enctype="multipart/form-data">
+		
+			<!-- file upload -->
+			<div class="input_form_section">
+				Choose a <span class="tooltip" title="Accepted file types: .docx, .doc, .txt & .rtf">roster</span> to upload:
+				<br/>
+				<input type="file" name="roster" accept=".docx, .doc, .txt, .rtf" required/>
+			</div>
+			
+			<!-- name order -->
+			<div class="input_form_section">
+				Enter <span class="tooltip" title="Order in which names appear in chosen file">name order</span>:
+				<br/>
+				<input type="radio" name="name_order" value="first" required/>First, Last
+				<br/>
+				<input type="radio" name="name_order" value="last"/>Last, First
+			</div>
+			
+			<!-- area of responsibilty -->
+			<div class="input_form_section">
+				What span of names would you like to partition?
+				<br/>
+				<select name="name_group_start">
+					<option value="A">A</option>
+					<option value="B">B</option>
+					<option value="C">C</option>
+					<option value="D">D</option>
+					<option value="E">E</option>
+					<option value="F">F</option>
+					<option value="G">G</option>
+					<option value="H">H</option>
+					<option value="I">I</option>
+					<option value="J">J</option>
+					<option value="K">K</option>
+					<option value="L">L</option>
+					<option value="M">M</option>
+					<option value="N">N</option>
+					<option value="O">O</option>
+					<option value="P">P</option>
+					<option value="Q">Q</option>
+					<option value="R">R</option>
+					<option value="S">S</option>
+					<option value="T">T</option>
+					<option value="U">U</option>
+					<option value="V">V</option>
+					<option value="W">W</option>
+					<option value="X">X</option>
+					<option value="Y">Y</option>
+				</select>
+				 to 
+				<select name="name_group_end">
+					<option value="B">B</option>
+					<option value="C">C</option>
+					<option value="D">D</option>
+					<option value="E">E</option>
+					<option value="F">F</option>
+					<option value="G">G</option>
+					<option value="H">H</option>
+					<option value="I">I</option>
+					<option value="J">J</option>
+					<option value="K">K</option>
+					<option value="L">L</option>
+					<option value="M">M</option>
+					<option value="N">N</option>
+					<option value="O">O</option>
+					<option value="P">P</option>
+					<option value="Q">Q</option>
+					<option value="R">R</option>
+					<option value="S">S</option>
+					<option value="T">T</option>
+					<option value="U">U</option>
+					<option value="V">V</option>
+					<option value="W">W</option>
+					<option value="X">X</option>
+					<option value="Y">Y</option>
+					<option value="Z" selected>Z</option>	
+				</select>
+			</div>
+
+			<!-- team name and password -->
+			<div class="input_form_section">
+				Enter a <span class="tooltip" title="Name must be identical for all partitions to allow recombination of roster (case sensitive)">team name</span>:
+				<br/>
+				<input type="text" name="team_name" placeholder="Please enter a name" required/>
+				<br/>
+				
+				<br/>
+				Enter a team password:
+				<br/>
+				<input type="text" name="team_pass" placeholder="Please enter a password" required/>
+			</div>
+			
+			<button class="submit" type="submit" name="submit">Submit</button>
+			
+		</form>
+	</div>
+	
+	<script src="assets/js/roster_scripts.js"></script>
+</body>
+</html>
