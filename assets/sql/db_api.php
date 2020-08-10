@@ -2,12 +2,24 @@
 	require_once 'db_login.php';
 	
 	
+	//connect to server
+	$connServer = mysqli_connect($dbServer, $dbUsername, $dbPassword);
+	if (!$connServer) {
+		die('Failed to connect to server: ' . mysqli_connect_error());
+	}
+
+	//create schema
+	$query = "CREATE DATABASE IF NOT EXISTS  $dbName ";
+	mysqli_query($connServer, $query);
+
+	mysqli_close($connServer);
+	
 	//connect to database
 	$conn = mysqli_connect($dbServer, $dbUsername, $dbPassword, $dbName);
 	if (!$conn) {
-		die('Failed to connect to server: ' . mysqli_connect_error());
+		die('Failed to connect to database: ' . mysqli_connect_error());
 	}
-	
+
 	//return name's "checked" status
 	function check_name($prepName, $tableName) {
 		global $conn;
@@ -116,19 +128,16 @@
 			//create rosters folder if necessary
 			if (!file_exists('../../rosters/')) {
 				mkdir('../../rosters/', 0777, false);
-				
-				if (!file_exists('../../rosters/')) {
-					//place file in root dir if folder creation fails
-					$fileName = '../../Roster_' . date('M-j-Y_h-i') . '.txt';
-					$rosterFile = file_put_contents($fileName, $data);
-					
-					die('Failed to create "rosters" directory');
-				}
-				else {
-					//place file in folder upon successful creation or prior existence
-					$fileName = '../../rosters/Roster_' . date('M-j-Y_h-i') . '.txt';
-					$rosterFile = file_put_contents($fileName, $data);
-				}
+			}
+			if (!file_exists('../../rosters/')) {
+				//place file in root dir if folder creation fails
+				$filePathName = '../../Roster_' . date('M-j-Y_H:i') . '.txt';
+				$rosterFile = file_put_contents($filePathName, $data);
+			}
+			else {
+				//place file in folder upon successful creation or prior existence
+				$filePathName = '../../rosters/Roster_' . date('M-j-Y_H:i') . '.txt';
+				$rosterFile = file_put_contents($filePathName, $data);
 			}
 		}
 	}
