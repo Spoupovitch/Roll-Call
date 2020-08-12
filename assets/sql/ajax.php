@@ -25,7 +25,6 @@
 				delete_table($tableName);
 				break;
 			
-			
 			default:
 		}
 	}

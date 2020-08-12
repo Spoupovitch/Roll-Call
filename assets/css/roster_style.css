@@ -8,31 +8,52 @@ body {
 	font-family: 'Sunflower';
 	font-size: 1.15em;
 	text-align: center;
-	background: #F6F6F6;
+
+	background-image: url("../images/roll_call_bg.jpeg");
+	background-attachment: fixed;
+	background-position: center;
 }
 
 header > h2 {
-	margin: 2.8em 0 0.5em 0;
 	text-transform: uppercase;
 	letter-spacing: .625em;
 }
 
+/* sidebar */
+.sidebar {
+	flex: 1;
+	justify-items: center;
+	display: inline-block;
+	position: fixed;
+	
+	top: 0;
+	left: 0;
+	min-height: 100%;
+	min-width: 10em;
 
-button.misc_button {
+	background-color: #E4E4E4;
+	border-right: .1em solid #B7B7B7;
+	padding: .5em 0 .75em 0;
+}
+
+
+.misc_button {
 	background-color: #3D86FF;
 	color: white;
 	text-transform: uppercase;
+	font-weight: bold;
+	letter-spacing: .05em;
+
 	padding: 1em;
-	border: #2D76EF outset;
-	border-radius: .25em;
-	margin: .5em;
-	min-width: 8em;
-	max-width: 10em;
+	margin: .5em 0 .5em 0;
+	border-top: #2D76EF outset;
+	border-bottom: #2D76EF outset;
+	min-width: 100%;
 }
 button.misc_button:active {
 	background-color: #2D76EF;
 	border: #2D76EF inset;
-	transform: translateY(.2em);
+	transform: translateY(.1em);
 }
 button.misc_button:hover {
 	background-color: #2D76EF;
@@ -47,6 +68,7 @@ button.submit {
 	border: none;
 }
 
+/* main container */
 .checked_name:nth-child(odd) {
 	background-color: rgba(2, 175, 0, .5);
 }
@@ -56,34 +78,38 @@ button.submit {
 .checked_name:hover {
 	background-color: rgba(13, 165, 0, .55);
 }
-
-.display_page_container {
-	display: flex;
-	flex-direction: row;
-	background-image: url("../images/roll_call_bg.jpeg");
-	background-attachment: fixed;
-	background-position: center;
+.unchecked_name:nth-child(odd) {
+	background-color: rgba(218, 218, 218, .7);
 }
-
+.unchecked_name:nth-child(even) {
+	background-color: rgba(230, 230, 230, .5);
+}
+.unchecked_name:hover {
+	background-color: rgba(214, 212, 212, .8);
+}
 
 #compilation_container {
 	border-left: .1em solid #B7B7B7;
 	border-right: .1em solid #B7B7B7;
 	text-align: center;
 	padding: .1em;
+	background-color: rgba(0, 0, 0, 0);
 }
 
+.display_page_container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
 
-.error_msg {
-	color: red;
-	font-size: 1.5em;
+	background: rgba(0, 0, 0, 0);
 }
 
-.input_form_section {
-	margin-top: 2em;
-	margin-bottom: 2em;
-}
+#home_page_container {
+	min-height: 100%;
+	background-color: #f6f6f6;
 
+	padding-top: 3.5em;
+}
 
 .line_name {
 	display: grid;
@@ -95,21 +121,14 @@ button.submit {
 	zoom: 1.75;
 }
 
-
-.options_container {
-	flex: 1;
-	justify-content: flex-start;
-	position: sticky;
-	top: 0;
-	height: 100%;
-	min-width: 7em;
-	max-width: 10em;
+.roster_container {
+	flex: 3;
+	justify-content: space-around;
 	display: inline-block;
-	background-color: #E4E4E4;
-	border-right: .1em solid #B7B7B7;
-	padding: .5em .05em .75em .05em;
-}
 
+	margin: 1em 15% 1em 15%;
+	max-width: 50%;
+}
 
 #roster_bulk_container {
 	border-left: .1em solid #B7B7B7;
@@ -127,14 +146,6 @@ div#roster_bulk_container > div:hover {
 	background-color: rgba(214, 212, 212, .8);
 }
 
-.roster_container {
-	flex: 3;
-	justify-content: space-around;
-	display: inline-block;
-	margin: 1em 10% 1em 15%;
-	max-width: 50%;
-}
-
 #roster_partition_container {
 	border-left: .1em solid #B7B7B7;
 	border-right: .1em solid #B7B7B7;
@@ -142,7 +153,7 @@ div#roster_bulk_container > div:hover {
 	padding: .1em;
 }
 div#roster_partition_container > div:nth-child(odd) {
-	background-color: rgba(225, 179, 229, .65);
+	background-color: rgba(225, 179, 229, .7);
 }
 div#roster_partition_container > div:nth-child(even) {
 	background-color: rgba(246, 194, 252, .65);
@@ -152,6 +163,19 @@ div#roster_partition_container > div:hover {
 }
 
 
+/* error handling */
+.error_msg {
+	color: red;
+	font-size: 1.5em;
+}
+
+.input_form_section {
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+
+
+/* misc styling */
 .tooltip {
 	color: rgba(104, 23, 23, .85);
 	border-bottom: .05em dotted;
@@ -161,10 +185,6 @@ div#roster_partition_container > div:hover {
 	border-bottom: none;
 }
 
-
-/*
-hide element
-*/
 .hidden {
 	display: none;
 }

@@ -43,8 +43,8 @@
 	<div class="display_page_container">
 	
 		<!-- sidebar -->
-		<div class="options_container">
-			<button class="misc_button" onclick="location.href='roster_index.html'">
+		<div class="sidebar">
+			<button class="misc_button" onclick="location.href='index.html'">
 				Home
 			</button>
 			<br/>

@@ -131,12 +131,12 @@
 			}
 			if (!file_exists('../../rosters/')) {
 				//place file in root dir if folder creation fails
-				$filePathName = '../../Roster_' . date('M-j-Y_H:i') . '.txt';
+				$filePathName = '../../Roster_' . date('M-j-Y_H-i') . '.txt';
 				$rosterFile = file_put_contents($filePathName, $data);
 			}
 			else {
 				//place file in folder upon successful creation or prior existence
-				$filePathName = '../../rosters/Roster_' . date('M-j-Y_H:i') . '.txt';
+				$filePathName = '../../rosters/Roster_' . date('M-j-Y_H-i') . '.txt';
 				$rosterFile = file_put_contents($filePathName, $data);
 			}
 		}

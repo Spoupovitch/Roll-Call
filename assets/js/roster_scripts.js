@@ -25,6 +25,11 @@ function toggleBulk() {
 	bulkContainer.classList.toggle("hidden");
 }
 
+//shows user where to find the final output roster
+function showRosterFileLocation(filePath) {
+	confirm("Your roster was generated and sent to" + filePath);
+}
+
 
 /*
 jQuery
@@ -47,7 +52,7 @@ function makeRosterFile(tableName) {
 		type:'POST',
 		data: {method: 'write_roster', tableName: tableName},
 		success: function() {
-			window.location.href = "roster_index.html";
+			window.location.href = "index.html";
 		},
 		error: function() {
 			console.log("Something went wrong");
